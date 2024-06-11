@@ -1,0 +1,78 @@
+﻿@model List<Order>
+
+@{
+    ViewData["Title"] = "Orders Panel";
+}
+
+<div class="card-header bg-primary bg-gradient ml-0 py-3">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="text-light py-2">Orders List</h2>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped custom-table">
+    <thead class="bg-primary">
+        <tr class="bg-primary">
+            <th scope="col">Order Code</th>
+            <th scope="col">Total</th>
+            <th scope="col">Status</th>
+            <th scope="col">UserName</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderCode</td>
+                <td>@order.Total <small>EGP</small> </td>
+                <td>@order.Status</td>
+                <td>@order.ApplicationUser.UserName</td>
+                <td>
+                    @if (order.Status == OrderStatus.Processing)
+                    {
+                        <button class="btn btn-danger border btn-sm border-dark rounded" onclick="showCancelModal(@order.Id)">Cancel Order</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary btn-sm border border-dark rounded" disabled>Cancel Order</button>
+                    }
+                    <a class="btn btn-sm btn-info rounded" href="/order/details/@order.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">Confirm Cancelation</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel this order?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded" id="confirmCancelBtn">Yes</button>
+                <button type="button" class="btn btn-secondary rounded" id="closeModal" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showCancelModal(orderId) {
+            $('#confirmCancelBtn').data('order-id', orderId);
+            $('#cancelModal').modal('show');
+        }
+
+        $('#confirmCancelBtn').click(function () {
+            var orderId = $(this).data('order-id');
+            window.location.href = '/order/cancelorder/' + orderId;
+        });
+    </script>
+}

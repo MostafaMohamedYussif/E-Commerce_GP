@@ -1,0 +1,75 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<form id="profile-form" method="post">
+    <div class="row">
+        <fieldset class="col-md-6">
+            <legend>Personal Information</legend>
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="Input.FirstName" class="form-label" for="firstName">First Name</label>
+                    <input asp-for="Input.FirstName" autocomplete="firstname" aria-required="true" maxlength="100" class="form-control" id="firstName" placeholder="John">
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="Input.LastName" class="form-label" for="lastName">Last Name</label>
+                    <input asp-for="Input.LastName" autocomplete="lastname" aria-required="true" maxlength="100" class="form-control" id="lastName" placeholder="Doe">
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+
+                <div class="col">
+                    <label asp-for="Input.PhoneNumber" class="form-label" for="phone">Phone Number</label>
+                    <input asp-for="Input.PhoneNumber" autocomplete="phone" aria-required="true" maxlength="11" class="form-control" id="phone" placeholder="01234567891">
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset class="col-md-6">
+            <div class="mb-3">
+                <label asp-for="Input.Street" class="form-label" for="street">Street Details</label>
+                <textarea asp-for="Input.Street" aria-required="true" class="form-control" id="street" placeholder="street address in details"></textarea>
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.City" class="form-label" for="city">City</label>
+                <input asp-for="Input.City" aria-required="true" class="form-control" id="city" placeholder="city">
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label asp-for="Input.Building_Number" class="form-label" for="building">Building Number</label>
+                    <input asp-for="Input.Building_Number" aria-required="true" class="form-control" id="building" placeholder="building number">
+                    <span asp-validation-for="Input.Building_Number" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="Input.Floor_Number" class="form-label" for="floor">Floor Number</label>
+                    <input asp-for="Input.Floor_Number" aria-required="true" class="form-control" id="floor" placeholder="floor number">
+                    <span asp-validation-for="Input.Floor_Number" class="text-danger"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
+

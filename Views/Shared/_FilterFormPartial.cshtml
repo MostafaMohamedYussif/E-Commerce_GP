@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewData["Title"] = "Products";
+
+    var brands = ViewData["listOfBrands"] as List<Brand>;
+}
+
+<form action="/product/Filter" method="get" class="bg-light">
+    <fieldset>
+        <legend class="bg-primary text-white p-2">Filters</legend>
+        <!-- Brand filter -->
+        <label class="bg-primary mx-2 fw-bold text-white p-2" for="brandName">Brand:</label>
+        <br>
+        <br>
+        @foreach(var brand in brands)
+        {
+            <input type="radio" id="@brand.Name" name="brandName" value="@brand.Name" class="form-check-input mx-2">
+            <label for="@brand.Name">@brand.Name</label>
+            <br />
+        }
+
+        <br>
+        <!-- Price filter -->
+        <label class="bg-primary fw-bold text-white p-2 mx-2" for="brandName">Price:</label>
+        <br>
+        <br>
+        <label for="minPrice" class="mx-2">Min Price:</label>
+        <input type="number" id="minPrice" name="minPrice" class="form-control">
+        <label for="maxPrice" class="mx-2">Max Price:</label>
+        <input type="number" id="maxPrice" name="maxPrice" class="form-control">
+        <span id="priceError" class="text-danger"></span>
+        <br>
+        <!-- Rating filter -->
+        <label class="bg-primary fw-bold text-white p-2 mx-2" for="rating">Rating:</label>
+        <br>
+        <br>
+        <input type="radio" id="star1" name="rating" value="1" class="form-check-input mx-2">
+        <label class="text-warning" for="star1"> <i class="fa fa-star"></i> </label>
+        <br>
+
+        <input type="radio" id="star2" name="rating" value="2" class="form-check-input mx-2">
+        <label class="text-warning" for="star2"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
+        <br>
+
+        <input type="radio" id="star3" name="rating" value="3" class="form-check-input mx-2">
+        <label class="text-warning" for="star3"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
+        <br>
+
+        <input type="radio" id="star4" name="rating" value="4" class="form-check-input mx-2">
+        <label class="text-warning" for="star4"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
+        <br>
+
+        <input type="radio" id="rating5" name="rating" value="5" class="form-check-input mx-2">
+        <label class="text-warning" for="rating5"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </label>
+        <br>
+
+        <button id="filterbtn" class="btn btn-sm btn-primary mt-5 mb-4 rounded form-control p-2" type="submit">Apply Filters</button>
+    </fieldset>
+</form>
+
+<style>
+    legend {
+        border: 1px solid #007bff;
+        border-radius: 0.25rem;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the min and max price input fields, error span, and submit button
+        var minPriceInput = document.getElementById("minPrice");
+        var maxPriceInput = document.getElementById("maxPrice");
+        var errorSpan = document.getElementById("priceError");
+        var form = document.querySelector("form");
+        var submitButton = document.getElementById("filterbtn");
+
+        // Add input event listeners to both min and max price fields
+        minPriceInput.addEventListener("input", validatePriceRange);
+        maxPriceInput.addEventListener("input", validatePriceRange);
+
+        // Function to validate the price range
+        function validatePriceRange() {
+            // Get the values of min and max price
+            var minPrice = parseFloat(minPriceInput.value);
+            var maxPrice = parseFloat(maxPriceInput.value);
+
+            // Check if min price and max price are not negative
+            if (minPrice < 0 || maxPrice < 0) {
+                // Display the error message
+                errorSpan.textContent = "Prices cannot be negative.";
+                // Disable the submit button
+                submitButton.disabled = true;
+            }
+            // Check if min price is greater than or equal to max price
+            else if (minPrice >= maxPrice) {
+                // Display the error message
+                errorSpan.textContent = "Minimum price must be less than maximum price.";
+                // Disable the submit button
+                submitButton.disabled = true;
+            } else {
+                // Clear the error message if validation passes
+                errorSpan.textContent = "";
+                // Enable the submit button
+                submitButton.disabled = false;
+            }
+        }
+    });
+</script>
+
